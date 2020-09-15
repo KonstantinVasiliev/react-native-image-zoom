@@ -158,6 +158,8 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
 
             this.imageDidMove('centerOn');
 
+            this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
+
             Animated.parallel([
               Animated.timing(this.animatedScale, {
                 toValue: this.scale,
@@ -345,6 +347,7 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
                 // 越到下方，缩放越小
                 this.scale = this.scale - diffY / 1000;
                 this.animatedScale.setValue(this.scale);
+                this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
               }
             }
           }
@@ -400,6 +403,7 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
             // 开始缩放
             this.scale = zoom;
             this.animatedScale.setValue(this.scale);
+            this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
 
             // 图片要慢慢往两个手指的中心点移动
             // 缩放 diff
@@ -463,6 +467,7 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
     this.positionY = 0;
     this.scale = 1;
     this.animatedScale.setValue(1);
+    this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
   };
 
   public panResponderReleaseResolve = (): void => {
@@ -485,6 +490,7 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
         duration: 100,
         useNativeDriver: !!this.props.useNativeDriver,
       }).start();
+      this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
     }
 
     if (this.props.imageWidth * this.scale <= this.props.cropWidth) {
@@ -623,6 +629,7 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
     ]).start(() => {
       this.imageDidMove('centerOn');
     });
+    this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
   }
 
   /**
@@ -644,6 +651,7 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
     this.animatedPositionX.setValue(this.positionX);
     this.positionY = 0;
     this.animatedPositionY.setValue(this.positionY);
+    this.props.onCurrentScale && this.props.onCurrentScale(this.scale);
   }
 
   public render(): React.ReactNode {

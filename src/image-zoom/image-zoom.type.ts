@@ -186,6 +186,8 @@ export class ImageZoomProps {
     //
   };
 
+  public onCurrentScale?: (number: number) => void = () => {};
+
   /**
    * Allows defining the onMoveShouldSetResponder behavior.
    */
